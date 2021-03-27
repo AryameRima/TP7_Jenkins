@@ -10,5 +10,11 @@ pipeline {
       }
     }
 
+    stage('Mail Notification') {
+      steps {
+        mail(subject: 'Test', body: 'Test', to: 'hl_medjahed@esi.dz', from: 'ga_bendjeddou@esi.dz')
+      }
+    }
+
   }
 }
