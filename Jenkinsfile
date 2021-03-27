@@ -3,8 +3,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        pwsh 'gradle build'
-        pwsh 'gradle javadoc'
+        powershell 'gradle build'
+        powershell 'gradle javadoc'
         archiveArtifacts 'build/libs/*.jar'
         archiveArtifacts 'build/docs/javadoc/*'
       }
