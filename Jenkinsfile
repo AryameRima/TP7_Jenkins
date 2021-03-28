@@ -17,10 +17,20 @@ pipeline {
     }
 
     stage('Code Analysis') {
-      steps {
-        waitForQualityGate true
-      }
+      parallel {
+stage('Code Analysis'){
+steps{
+withSonarQubeEnv('SonarQube'){
+bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
+}
+script {
+echo "test2"
+def qg= waitForQualityGate()
+if(qg.status !='ok')
+{
+error "Pipeline aborted due to quality gate failure:${qg.status}"
+echo "test3"}
     }
-
+}
   }
 }
