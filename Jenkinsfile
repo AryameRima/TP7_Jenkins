@@ -36,7 +36,8 @@ pipeline {
 
       }
     }
-stage('Deployment') {
+
+    stage('Deployment') {
       when {
         branch 'master'
       }
@@ -53,5 +54,6 @@ stage('Deployment') {
         slackSend(baseUrl: 'https://hooks.slack.com/services', teamDomain: 'aya', token: 'TFL2J22BW/B01SM0XKHMY/HHlpYefl0q0z1i4XD4lTNp4h', message: 'deployee', channel: 'aya')
       }
     }
+
   }
 }
