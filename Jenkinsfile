@@ -16,28 +16,15 @@ pipeline {
       }
     }
 
-    stage('Code Analysis') {
-      parallel {
-        stage('Code Analysis') {
-          steps {
-            withSonarQubeEnv('SonarQube') {
-              bat 'C:\\Users\\sony\\Desktop\\gradle-5.6-bin\\gradle-5.6\\bin\\gradle sonarqube'
-            }
-
-            script {
-              echo "test2"
-              def qg= waitForQualityGate()
-              if(qg.status !='ok')
-              {
-                error "Pipeline aborted due to quality gate failure:${qg.status}"
-                echo "test3"}
-              }
-
-            }
-          }
-
-        }
-      }
-
+    stage('Code Analysis'){
+steps{
+withSonarQubeEnv('SonarQube'){
+bat 'C:\\Users\\sony\\Desktop\\gradle-5.6-bin\\gradle-5.6\\bin\\gradle sonarqube'
+}}}
+     stage('Quality gate'){
+steps{
+waitForQualityGate abortPipeline: true
+}}}
+    
     }
   }
