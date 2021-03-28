@@ -3,8 +3,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        powershell 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin build'
-        powershell 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin javadoc'
+        powershell 'gradle build'
+        powershell 'gradle javadoc'
         archiveArtifacts 'build/libs/*.jar'
         archiveArtifacts 'build/docs/javadoc/*'
       }
