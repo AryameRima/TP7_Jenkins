@@ -42,7 +42,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        bat 'gradle publish'
+        bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle publish'
       }
     }
 
