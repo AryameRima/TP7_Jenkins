@@ -18,14 +18,14 @@ pipeline {
 
     stage('Code Analysis') {
       steps {
-        withSonarQubeEnv('SonarQube') {
+        withSonarQubeEnv('sonar') {
           bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
         }
 
       }
     }
 
-    stage('Quality gate') {
+    stage('Quality Gate') {
       steps {
         waitForQualityGate true
       }
