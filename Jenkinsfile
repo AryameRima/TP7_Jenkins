@@ -36,6 +36,22 @@ pipeline {
 
       }
     }
+stage('Deployment') {
+      when {
+        branch 'master'
+      }
+      steps {
+        bat 'gradle publish'
+      }
+    }
 
+    stage('slack ') {
+      when {
+        branch 'master'
+      }
+      steps {
+        slackSend(baseUrl: 'https://hooks.slack.com/services', teamDomain: 'aya', token: 'TFL2J22BW/B01SM0XKHMY/HHlpYefl0q0z1i4XD4lTNp4h', message: 'deployee', channel: 'aya')
+      }
+    }
   }
 }
