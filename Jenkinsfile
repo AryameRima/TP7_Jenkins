@@ -33,27 +33,6 @@ pipeline {
       }
     }
 
-    stage('Code Analysis') {
-      parallel {
-        stage('Code Analysis') {
-          steps {
-            withSonarQubeEnv('sonar') {
-              bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
-            }
-
-            waitForQualityGate true
-          }
-        }
-
-        stage('Test Reporting') {
-          steps {
-            cucumber '**/*.json'
-          }
-        }
-
-      }
-    }
-
     stage('Deployment') {
       when {
         branch 'master'
@@ -68,7 +47,16 @@ pipeline {
         branch 'master'
       }
       steps {
-        slackSend(baseUrl: 'https://hooks.slack.com/services', teamDomain: 'aya', token: 'TFL2J22BW/B01SM0XKHMY/HHlpYefl0q0z1i4XD4lTNp4h', message: 'deployer', channel: 'aya')
+        slackSend(baseUrl: 'https://hooks.slack.com/services', teamDomain: 'aya', token: 'TFL2J22BW/B01SM0XKHMY/HHlpYefl0q0z1i4XD4lTNp4h', message: 'deployement', channel: 'aya')
+      }
+    }
+
+    stage('Code Analysis') {
+      steps {
+        withSonarQubeEnv('sonar') {
+          bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
+        }
+
       }
     }
 
