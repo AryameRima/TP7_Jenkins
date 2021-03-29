@@ -12,7 +12,7 @@ pipeline {
 
     stage('Mail Notification') {
       steps {
-        mail(subject: 'Test', body: 'Test', to: 'hl_medjahed@esi.dz', from: 'ga_bendjeddou@esi.dz')
+        mail(subject: 'Test', body: '${env.BUILD_URL} has result ${currentBuild.currentResult}', to: 'hl_medjahed@esi.dz', from: 'ga_bendjeddou@esi.dz')
       }
     }
 
