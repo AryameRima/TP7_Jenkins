@@ -32,10 +32,22 @@ pipeline {
         mail(subject: 'Build Notification', body: "${message}", from: 'ga_bendjeddou@esi.dz', to: 'hl_medjahed@esi.dz')
       }
     }
-     stage('Code Analysis') {
-      steps {
-        withSonarQubeEnv('sonar') {
-          bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
+    stage('Code Analysis') {
+      parallel {
+        stage('Code Analysis') {
+          steps {
+            withSonarQubeEnv('sonar') {
+              bat bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
+            }
+
+            waitForQualityGate true
+          }
+        }
+
+        stage('Test Reporting') {
+          steps {
+            jacoco(execPattern: 'build/jacoco/*.exec', exclusionPattern: '**/test/*.class')
+          }
         }
 
       }
@@ -59,14 +71,6 @@ pipeline {
       }
     }
 
-    stage('Code Analysis') {
-      steps {
-        withSonarQubeEnv('sonar') {
-          bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle sonarqube'
-        }
-
-      }
-    }
-
+   
   }
 }
