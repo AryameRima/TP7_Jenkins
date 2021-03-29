@@ -2,17 +2,34 @@ pipeline {
   agent any
   stages {
     stage('Build') {
+      post {
+        failure {
+          script {
+            message="failure"
+          }
+
+        }
+
+        success {
+          script {
+            message="Success"
+          }
+
+        }
+
+      }
       steps {
         bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle build'
         bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle javadoc'
         archiveArtifacts 'build/libs/*.jar'
         archiveArtifacts 'build/docs/javadoc/*'
+        junit 'build/test-results/test/*.xml'
       }
     }
 
     stage('Mail Notification') {
       steps {
-        mail(subject: 'Test', body: ' ', to: 'hl_medjahed@esi.dz', from: 'ga_bendjeddou@esi.dz')
+        mail(subject: 'Build Notification', body: "${message}", from: 'ga_bendjeddou@esi.dz', to: 'hl_medjahed@esi.dz')
       }
     }
 
@@ -42,7 +59,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        bat 'gradle publish'
+        bat 'C:\\\\Users\\\\sony\\\\Desktop\\\\gradle-5.6-bin\\\\gradle-5.6\\\\bin\\\\gradle publish'
       }
     }
 
@@ -51,8 +68,8 @@ pipeline {
         branch 'master'
       }
       steps {
-        slackSend(baseUrl: 'https://hooks.slack.com/services', teamDomain: 'aya', token: 'TFL2J22BW/B01SM0XKHMY/HHlpYefl0q0z1i4XD4lTNp4h', message: 'deployee', channel: 'aya')
-      }
+       slackSend(baseUrl: 'https://hooks.slack.com/services', teamDomain: 'aya', token: 'TFL2J22BW/B01SM0XKHMY/HHlpYefl0q0z1i4XD4lTNp4h', message: 'deployee', channel: 'aya')
+       }
     }
 
   }
